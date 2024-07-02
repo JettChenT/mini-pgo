@@ -1,5 +1,5 @@
 import '../../agent/src/client';
-import React, { useState } from 'react';
+import React, { startTransition, useState, useMemo } from 'react';
 import { createRoot } from 'react-dom/client';
 import ReactMarkdown from 'react-markdown';
 import { getRandomEntry } from './random';
@@ -31,30 +31,41 @@ function Feed() {
       .fill(0)
       .map(() => getRandomEntry())
   );
+  const [filterInput, setFilterInput]=  useState('');
   const [filter, setFilter] = useState('');
 
-  const entries = posts
-    .filter((entry) =>
-      (entry.message + entry.username)
-        .toLowerCase()
-        .includes(filter.toLowerCase())
-    )
-    .map(({ id, message, username, img }) => (
-      <Entry
-        key={id}
-        message={message}
-        username={username}
-        img={img}
-        onClick={() => setFilter(message)}
-      /> // { count: 13910, duration: 276.89999997615814 }
-    )); 
+  const entries = useMemo(() => {
+    return posts
+      .filter((entry) =>
+        (entry.message + entry.username)
+          .toLowerCase()
+          .includes(filter.toLowerCase())
+      )
+      .map(({ id, message, username, img }) => (
+        <Entry
+          key={id}
+          message={message}
+          username={username}
+          img={img}
+          onClick={() => setFilter(message)}
+        /> // { count: 13910, duration: 276.89999997615814 }
+      ));
+  }, [posts, filter]);
+
   return (
     <div className="relative bg-[#2e2e2e] p-7 rounded-lg h-screen overflow-auto flex flex-col gap-4 text-white">
       <div className="gap-2 sticky bg-black/90 rounded-lg p-2 top-0 flex items-center z-50">
         <p>[thecapybook]</p>
         <input
-          onInput={(event) => setFilter(event.target.value)}
-          value={filter}
+          onInput={
+            (event) => {
+              setFilterInput(event.target.value);
+              startTransition(() => {
+                setFilter(event.target.value);
+              });
+            }
+          }
+          value={filterInput}
           placeholder={`Search ${entries.length} posts...`}
           className="bg-[#111] rounded-lg text-white w-full"
         />
