@@ -25,14 +25,8 @@ export const createServer = () => {
         continue;
       }
       const fileContent = fs.readFileSync(file, 'utf8');
-
-      // ... Output the optimized code in this format:
-      /**
-       * ```js
-       *
-       * ```
-       */
     }
+    return res.status(200).json({ message: 'Data received' });
   });
 
   server.listen(6900, () => {

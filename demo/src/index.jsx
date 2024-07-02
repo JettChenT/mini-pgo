@@ -34,6 +34,13 @@ function Feed() {
   const [filterInput, setFilterInput]=  useState('');
   const [filter, setFilter] = useState('');
 
+  const updateFilter = (newValue) => {
+    setFilterInput(newValue);
+    startTransition(() => {
+      setFilter(newValue);
+    });
+  }
+
   const entries = useMemo(() => {
     return posts
       .filter((entry) =>
@@ -47,7 +54,7 @@ function Feed() {
           message={message}
           username={username}
           img={img}
-          onClick={() => setFilter(message)}
+          onClick={() => updateFilter(message)}
         /> // { count: 13910, duration: 276.89999997615814 }
       ));
   }, [posts, filter]);
@@ -59,10 +66,7 @@ function Feed() {
         <input
           onInput={
             (event) => {
-              setFilterInput(event.target.value);
-              startTransition(() => {
-                setFilter(event.target.value);
-              });
+              updateFilter(event.target.value);
             }
           }
           value={filterInput}
