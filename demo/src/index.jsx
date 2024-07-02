@@ -18,7 +18,8 @@ function Entry({ message, img, username, onClick }) {
       />
       <div>
         <p className="font-semibold">{username}</p>
-        <ReactMarkdown className="text-black/70">{message}</ReactMarkdown>
+        <ReactMarkdown className="text-black/70">{message}</ReactMarkdown> 
+        {/* { count: 1999, duration: 179.70000034570694 } */}
       </div>
     </div>
   );
@@ -45,8 +46,8 @@ function Feed() {
         username={username}
         img={img}
         onClick={() => setFilter(message)}
-      />
-    ));
+      /> // { count: 13910, duration: 276.89999997615814 }
+    )); 
   return (
     <div className="relative bg-[#2e2e2e] p-7 rounded-lg h-screen overflow-auto flex flex-col gap-4 text-white">
       <div className="gap-2 sticky bg-black/90 rounded-lg p-2 top-0 flex items-center z-50">

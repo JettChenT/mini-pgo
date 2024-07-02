@@ -68,6 +68,7 @@ export const Capture = ({ loc, id, children }) => {
 };
 
 export const transport = () => {
+  console.log("sending data...")
   const body = JSON.stringify(
     {
       data,
@@ -80,8 +81,8 @@ export const transport = () => {
       return value;
     }
   );
-  data = {};
-  fileMap = {};
+  // data = {};
+  // fileMap = {};
   return fetch('http://localhost:6900/data', {
     method: 'POST',
     headers: {
@@ -91,7 +92,7 @@ export const transport = () => {
   });
 };
 
-setTimeout(transport, 1000);
+setInterval(transport, 1000);
 
 globalThis.__SECRET_INTERNALS__ = {
   data,
